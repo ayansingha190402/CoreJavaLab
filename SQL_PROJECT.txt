@@ -1,0 +1,469 @@
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 9
+Server version: 8.0.31 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> create database companyABC
+    -> ;
+Query OK, 1 row affected (0.02 sec)
+
+mysql> create table dept(
+    -> dno int primary key,
+    -> dname varchar(100),
+    -> location varchar(200));
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> describe dept;
++----------+--------------+------+-----+---------+-------+
+| Field    | Type         | Null | Key | Default | Extra |
++----------+--------------+------+-----+---------+-------+
+| dno      | int          | NO   | PRI | NULL    |       |
+| dname    | varchar(100) | YES  |     | NULL    |       |
+| location | varchar(200) | YES  |     | NULL    |       |
++----------+--------------+------+-----+---------+-------+
+3 rows in set (0.05 sec)
+
+mysql> create table project(
+    -> pno int primary key,
+    -> pname varchar(200),
+    -> budget float(10,2),
+    -> dno int,
+    -> foreign key(dno) references dept(dno));
+Query OK, 0 rows affected, 1 warning (0.03 sec)
+
+mysql> describe project;
++--------+--------------+------+-----+---------+-------+
+| Field  | Type         | Null | Key | Default | Extra |
++--------+--------------+------+-----+---------+-------+
+| pno    | int          | NO   | PRI | NULL    |       |
+| pname  | varchar(200) | YES  |     | NULL    |       |
+| budget | float(10,2)  | YES  |     | NULL    |       |
+| dno    | int          | YES  | MUL | NULL    |       |
++--------+--------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> create table emp(
+    -> eno int primary key,
+    -> ename varchar(200),
+    -> salary float(10,2),
+    -> designation varchar(200),
+    -> pno int,
+    ->  foreign key(pno) references project(pno),
+    -> dno int,
+    ->  foreign key(dno) references dept(dno));
+Query OK, 0 rows affected, 1 warning (0.08 sec)
+
+mysql> describe emp;
++-------------+--------------+------+-----+---------+-------+
+| Field       | Type         | Null | Key | Default | Extra |
++-------------+--------------+------+-----+---------+-------+
+| eno         | int          | NO   | PRI | NULL    |       |
+| ename       | varchar(200) | YES  |     | NULL    |       |
+| salary      | float(10,2)  | YES  |     | NULL    |       |
+| designation | varchar(200) | YES  |     | NULL    |       |
+| pno         | int          | YES  | MUL | NULL    |       |
+| dno         | int          | YES  | MUL | NULL    |       |
++-------------+--------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql>  insert into dept values(
+    -> 2042,"SENIOR DEVELOPER TEAM","MUMBAI");
+Query OK, 1 row affected (0.01 sec)
+
+mysql>  insert into dept values(
+    -> 2043,"JUNIOR DEVELOPER TEAM", "CHENNAI");
+Query OK, 1 row affected (0.01 sec)
+
+mysql>  insert into dept values(
+    -> 2044,"FORNT END DEVELOPER", "NEW DELHI");
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from dept;
++------+-----------------------+-----------+
+| dno  | dname                 | location  |
++------+-----------------------+-----------+
+| 2042 | SENIOR DEVELOPER TEAM | MUMBAI    |
+| 2043 | JUNIOR DEVELOPER TEAM | CHENNAI   |
+| 2044 | FORNT END DEVELOPER   | NEW DELHI |
++------+-----------------------+-----------+
+3 rows in set (0.00 sec)
+
+mysql> insert into project values(
+    -> 5588, "JAVA DESKTOP",35000, 2042);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into project values(
+    -> 6322, "JAVA WEB DEVELOPMENT",38000, 2042);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into project values(
+    -> 5467, "PHP PROJECT",10000, 2043);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into project values(
+    -> 3489, "PYPTHON PROJECT",28000, 2043);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into project values(
+    -> 1588, "JAVA AWT",40000, 2044);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from project;
++------+----------------------+----------+------+
+| pno  | pname                | budget   | dno  |
++------+----------------------+----------+------+
+| 1588 | JAVA AWT             | 40000.00 | 2044 |
+| 3489 | PYPTHON PROJECT      | 28000.00 | 2043 |
+| 5467 | PHP PROJECT          | 10000.00 | 2043 |
+| 5588 | JAVA DESKTOP         | 35000.00 | 2042 |
+| 6322 | JAVA WEB DEVELOPMENT | 38000.00 | 2042 |
++------+----------------------+----------+------+
+5 rows in set (0.00 sec)
+
+mysql> insert into emp values(
+    -> 1411, "AYAN SINGHA", 75000.887,"JAVA FULL STACK DEVELOPER",5588,2042);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into emp values(
+    -> 1412, "SUBHADIP KUNDU", 80000,"JAVA ANDROID DEVELOPER",1588,2042);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into emp values(
+    -> 1413, "JAYANTA CAHHETRJEE", 55000,"ASSOCIATE DEVELOPER",5588,2043);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into emp values(
+    -> 1414, "RISK PRATIHAR", 58000,"PYTHON FULL STACK DEVELOPER",3489,2043);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into emp values(
+    -> 1415, "SANDIP KUNDU", 25000,"PYTHON DEVELOPER (INTERN)",3489,2043);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into emp values(
+    -> 1416, "SANGITA GHOSH", 40000,"PHP AND WORDPRESS DEVELOPER",5467,2043);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into emp values(
+    -> 1417, "MITA LAHA", 31000,"WEB DEVELOPER (INTERN)",5467,2044);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into emp values(
+    -> 1418,"SHILPA DEY",30000,"JAVA DEVELOPER (INTERN)",1588,2044);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into emp values(
+    -> 1419,"SHILPA KUNDU",28000,"JAVA WEB DEVELOPER ",6322,2044);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into emp values(
+    -> 1420,"PRIYA DEY",33000,"JAVA WEB DEVELOPER ",6322,2044);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from emp;
++------+--------------------+----------+-----------------------------+------+------+
+| eno  | ename              | salary   | designation                 | pno  | dno  |
++------+--------------------+----------+-----------------------------+------+------+
+| 1411 | AYAN SINGHA        | 75000.89 | MANAGER 				     | 5588 | 2042 |
+| 1412 | SUBHADIP KUNDU     | 80000.00 | MANAGER                     | 1588 | 2042 |
+| 1413 | JAYANTA CAHHETRJEE | 55000.00 | ASSOCIATE DEVELOPER         | 5588 | 2043 |
+| 1414 | RISK PRATIHAR      | 58000.00 | PYTHON FULL STACK DEVELOPER | 3489 | 2043 |
+| 1415 | SANDIP KUNDU       | 25000.00 | PYTHON DEVELOPER (INTERN)   | 3489 | 2043 |
+| 1416 | SANGITA GHOSH      | 40000.00 | PHP AND WORDPRESS DEVELOPER | 5467 | 2043 |
+| 1417 | MITA LAHA          | 31000.00 | WEB DEVELOPER (INTERN)      | 5467 | 2044 |
+| 1418 | SHILPA DEY         | 30000.00 | JAVA DEVELOPER (INTERN)     | 1588 | 2044 |
+| 1419 | SHILPA KUNDU       | 28000.00 | JAVA WEB DEVELOPER          | 6322 | 2044 |
+| 1420 | PRIYA DEY          | 33000.00 | JAVA WEB DEVELOPER          | 6322 | 2044 |
++------+--------------------+----------+-----------------------------+------+------+
+10 rows in set (0.00 sec)
+
+mysql> select e.eno,e.ename,e.salary,e.designation,p.pname,p.budget,d.dname,d.location
+    -> from emp e
+    -> JOIN project p
+    -> ON e.pno=p.pno
+    -> JOIN dept d
+    -> ON e.dno=d.dno;
++------+--------------------+----------+-----------------------------+----------------------+----------+-----------------------+-----------+
+| eno  | ename              | salary   | designation                 | pname                | budget   | dname                 | location  |
++------+--------------------+----------+-----------------------------+----------------------+----------+-----------------------+-----------+
+| 1411 | AYAN SINGHA        | 75000.89 | MANAGER                     | JAVA DESKTOP         | 35000.00 | SENIOR DEVELOPER TEAM | MUMBAI    |
+| 1412 | SUBHADIP KUNDU     | 80000.00 | MANAGER                     | JAVA AWT             | 40000.00 | SENIOR DEVELOPER TEAM | MUMBAI    |
+| 1413 | JAYANTA CAHHETRJEE | 55000.00 | ASSOCIATE DEVELOPER         | JAVA DESKTOP         | 35000.00 | JUNIOR DEVELOPER TEAM | CHENNAI   |
+| 1414 | RISK PRATIHAR      | 58000.00 | PYTHON FULL STACK DEVELOPER | PYPTHON PROJECT      | 28000.00 | JUNIOR DEVELOPER TEAM | CHENNAI   |
+| 1415 | SANDIP KUNDU       | 25000.00 | PYTHON DEVELOPER (INTERN)   | PYPTHON PROJECT      | 28000.00 | JUNIOR DEVELOPER TEAM | CHENNAI   |
+| 1416 | SANGITA GHOSH      | 40000.00 | PHP AND WORDPRESS DEVELOPER | PHP PROJECT          | 10000.00 | JUNIOR DEVELOPER TEAM | CHENNAI   |
+| 1417 | MITA LAHA          | 31000.00 | WEB DEVELOPER (INTERN)      | PHP PROJECT          | 10000.00 | FORNT END DEVELOPER   | NEW DELHI |
+| 1418 | SHILPA DEY         | 30000.00 | JAVA DEVELOPER (INTERN)     | JAVA AWT             | 40000.00 | FORNT END DEVELOPER   | NEW DELHI |
+| 1419 | SHILPA KUNDU       | 28000.00 | JAVA WEB DEVELOPER          | JAVA WEB DEVELOPMENT | 38000.00 | FORNT END DEVELOPER   | NEW DELHI |
+| 1420 | PRIYA DEY          | 33000.00 | JAVA WEB DEVELOPER          | JAVA WEB DEVELOPMENT | 38000.00 | FORNT END DEVELOPER   | NEW DELHI |
++------+--------------------+----------+-----------------------------+----------------------+----------+-----------------------+-----------+
+10 rows in set (0.00 sec)
+
+mysql> select e.eno,e.ename,e.salary,e.designation,p.pname,p.budget,d.dname,d.location
+    -> from emp e
+    -> JOIN project p
+    -> ON e.pno=p.pno
+    -> JOIN dept d
+    -> ON e.dno=d.dno
+    -> WHERE e.designation="MANAGER" AND d.location="MUMBAI";
++------+----------------+----------+-------------+--------------+----------+-----------------------+----------+
+| eno  | ename          | salary   | designation | pname        | budget   | dname                 | location |
++------+----------------+----------+-------------+--------------+----------+-----------------------+----------+
+| 1411 | AYAN SINGHA    | 75000.89 | MANAGER     | JAVA DESKTOP | 35000.00 | SENIOR DEVELOPER TEAM | MUMBAI   |
+| 1412 | SUBHADIP KUNDU | 80000.00 | MANAGER     | JAVA AWT     | 40000.00 | SENIOR DEVELOPER TEAM | MUMBAI   |
++------+----------------+----------+-------------+--------------+----------+-----------------------+----------+
+2 rows in set (0.00 sec)
+
+mysql> desc project;
++--------------+--------------+------+-----+---------+-------+
+| Field        | Type         | Null | Key | Default | Extra |
++--------------+--------------+------+-----+---------+-------+
+| pno          | int          | NO   | PRI | NULL    |       |
+| pname        | varchar(200) | YES  |     | NULL    |       |
+| budget       | float(10,2)  | YES  |     | NULL    |       |
+| dno          | int          | YES  | MUL | NULL    |       |
+| projecthours | time         | YES  |     | NULL    |       |
++--------------+--------------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+mysql> alter table project
+    -> rename column pname to projectName;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc project;
++--------------+--------------+------+-----+---------+-------+
+| Field        | Type         | Null | Key | Default | Extra |
++--------------+--------------+------+-----+---------+-------+
+| pno          | int          | NO   | PRI | NULL    |       |
+| projectName  | varchar(200) | YES  |     | NULL    |       |
+| budget       | float(10,2)  | YES  |     | NULL    |       |
+| dno          | int          | YES  | MUL | NULL    |       |
++--------------+--------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> alter table project
+    -> add column projecthours TIME;
+Query OK, 0 rows affected (0.06 sec)
+	
+mysql> desc project;
++--------------+--------------+------+-----+---------+-------+
+| Field        | Type         | Null | Key | Default | Extra |
++--------------+--------------+------+-----+---------+-------+
+| pno          | int          | NO   | PRI | NULL    |       |
+| projectName  | varchar(200) | YES  |     | NULL    |       |
+| budget       | float(10,2)  | YES  |     | NULL    |       |
+| dno          | int          | YES  | MUL | NULL    |       |
+| projecthours | time         | YES  |     | NULL    |       |
++--------------+--------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> select e.eno,e.ename,e.salary,e.designation,p.projectName,p.budget,d.dname,d.location
+    -> from emp e
+    -> JOIN project p
+    -> ON e.pno=p.pno
+    -> JOIN dept d
+    -> ON e.dno=d.dno
+    -> WHERE p.projectName="JAVA WEB DEVELOPMENT" AND d.location="NEW DELHI";
++------+--------------+----------+---------------------+----------------------+----------+---------------------+-----------+
+| eno  | ename        | salary   | designation         | projectName          | budget   | dname               | location  |
++------+--------------+----------+---------------------+----------------------+----------+---------------------+-----------+
+| 1419 | SHILPA KUNDU | 28000.00 | JAVA WEB DEVELOPER  | JAVA WEB DEVELOPMENT | 38000.00 | FORNT END DEVELOPER | NEW DELHI |
+| 1420 | PRIYA DEY    | 33000.00 | JAVA WEB DEVELOPER  | JAVA WEB DEVELOPMENT | 38000.00 | FORNT END DEVELOPER | NEW DELHI |
++------+--------------+----------+---------------------+----------------------+----------+---------------------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> select * from project
+    -> ORDER BY budget DESC;
++------+----------------------+----------+------+--------------+
+| pno  | projectName          | budget   | dno  | projecthours |
++------+----------------------+----------+------+--------------+
+| 1588 | JAVA AWT             | 40000.00 | 2044 | NULL         |
+| 6322 | JAVA WEB DEVELOPMENT | 38000.00 | 2042 | NULL         |
+| 5588 | JAVA DESKTOP         | 35000.00 | 2042 | NULL         |
+| 3489 | PYPTHON PROJECT      | 28000.00 | 2043 | NULL         |
+| 5467 | PHP PROJECT          | 10000.00 | 2043 | NULL         |
++------+----------------------+----------+------+--------------+
+5 rows in set (0.00 sec)
+
+mysql> select p.projectName, p.budget, d.dname, d.location
+    -> from project p
+    -> JOIN dept d
+    -> WHERE d.location="CHENNAI"
+    -> ORDER BY p.budget ASC;
++----------------------+----------+-----------------------+----------+
+| projectName          | budget   | dname                 | location |
++----------------------+----------+-----------------------+----------+
+| PHP PROJECT          | 10000.00 | JUNIOR DEVELOPER TEAM | CHENNAI  |
+| PYPTHON PROJECT      | 28000.00 | JUNIOR DEVELOPER TEAM | CHENNAI  |
+| JAVA DESKTOP         | 35000.00 | JUNIOR DEVELOPER TEAM | CHENNAI  |
+| JAVA WEB DEVELOPMENT | 38000.00 | JUNIOR DEVELOPER TEAM | CHENNAI  |
+| JAVA AWT             | 40000.00 | JUNIOR DEVELOPER TEAM | CHENNAI  |
++----------------------+----------+-----------------------+----------+
+5 rows in set (0.00 sec)
+
+mysql> select COUNT(*)
+    -> from project
+    -> where ProjectName LIKE "J%";
++----------+
+| COUNT(*) |
++----------+
+|        3 |
++----------+
+1 row in set (0.01 sec)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
